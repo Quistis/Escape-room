@@ -6,6 +6,10 @@ export const AppRoutes = {
   Quest: '/quest/:id'
 } as const;
 
+export enum NameSpace {
+  Quests = 'QUESTS',
+}
+
 export type TQuestFilterTypes = {
   name: string;
   id: string;
