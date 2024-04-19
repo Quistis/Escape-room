@@ -6,6 +6,10 @@ export const AppRoutes = {
   Quest: '/quest/:id'
 } as const;
 
+export enum APIRoute {
+  Quests = '/quest',
+}
+
 export enum NameSpace {
   Quests = 'QUESTS',
 }
