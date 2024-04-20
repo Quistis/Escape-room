@@ -1,21 +1,9 @@
 import { Link } from 'react-router-dom';
 import { TQuestsCard } from '../../types/quest';
+import { replaceDifficulty } from '../../utils/common';
 
 type QuestCardProps = {
   card: TQuestsCard;
-};
-
-const replaceDifficulty = (difficulty: string): string => {
-  switch (difficulty) {
-    case 'easy':
-      return 'лёгкий';
-    case 'medium':
-      return 'средний';
-    case 'hard':
-      return 'сложный';
-    default:
-      return difficulty;
-  }
 };
 
 const QuestCard = ({card}: QuestCardProps) => {

@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { StatusCodes } from 'http-status-codes';
 import { getToken } from './token';
 
-const BACKEND_URL = 'https://grading.design.htmlacademy.pro/v1/escape-room';
+const BACKEND_URL = 'https://grading.design.htmlacademy.pro/v1/escape-room/';
 const REQUEST_TIMEOUT = 5000;
 
 const StatusCodeMapping: Record<number, boolean> = {
