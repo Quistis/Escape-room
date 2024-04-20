@@ -12,6 +12,7 @@ export enum APIRoute {
 
 export enum NameSpace {
   Quests = 'QUESTS',
+  Filters = 'FILTERS',
 }
 
 export type TQuestFilterTypes = {
@@ -90,7 +91,7 @@ export const QuestDifficultyFilters: TQuestFilterTypes[] = [
   },
   {
     name: 'level',
-    id: 'middle',
+    id: 'medium',
     labelText: 'Средний',
   },
   {

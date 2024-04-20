@@ -3,9 +3,21 @@ import FilterSection from '../../components/filter-section/filter-section';
 import QuestCard from '../../components/quest-card/quest-card';
 import { QuestThemeFilters, QuestDifficultyFilters } from '../../const';
 
-
 const MainPage = ():JSX.Element => {
   const quests = useAppSelector((state) => state.QUESTS.cards.cardsData);
+  const currentTheme = useAppSelector((state) => state.FILTERS.currentTheme);
+  const currentDifficulty = useAppSelector((state) => state.FILTERS.currentDifficulty);
+
+  const isNotAllOrAny = (value: string) => value !== 'all' && value !== 'any';
+
+  const filteredQuests = quests.filter((quest) => {
+
+    const themeFilter = currentTheme === 'all' || currentTheme === quest.type || !isNotAllOrAny(currentTheme);
+    const difficultyFilter = currentDifficulty === 'any' || currentDifficulty === quest.level || !isNotAllOrAny(currentDifficulty);
+
+    return themeFilter && difficultyFilter;
+  });
+
   return (
     <main className="page-content">
       <div className="container">
@@ -25,7 +37,8 @@ const MainPage = ():JSX.Element => {
         </div>
         <h2 className="title visually-hidden">Выберите квест</h2>
         <div className="cards-grid">
-          {quests.map((quest) => <QuestCard key={quest.id} card={quest} />)}
+          {filteredQuests.length === 0}
+          {filteredQuests.length !== 0 && filteredQuests.map((quest) => <QuestCard key={quest.id} card={quest} />)}
         </div>
       </div>
     </main>
