@@ -9,11 +9,20 @@ export const AppRoutes = {
 
 export enum APIRoute {
   Quests = '/quest',
+  Login = '/login',
+  Logout = '/logout',
 }
 
 export enum NameSpace {
   Quests = 'QUESTS',
   Filters = 'FILTERS',
+  Auth = 'AUTH',
+}
+
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
 }
 
 export type TQuestFilterTypes = {
