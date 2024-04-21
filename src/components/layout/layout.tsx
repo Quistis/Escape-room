@@ -45,7 +45,7 @@ const Layout = (): JSX.Element => {
               <li className="main-nav__item">
                 <Link
                   className={`link ${activeLink === 'Мои бронирования' ? 'active' : ''}`}
-                  to={AppRoutes.Booking}
+                  to={AppRoutes.MyQuests}
                   onClick={() => handleLinkClick('Мои бронирования')}
                 >
                   Мои бронирования

@@ -3,7 +3,8 @@ export const AppRoutes = {
   Booking: '/quest/:id/booking',
   Contacts: '/contacts',
   Login: '/login',
-  Quest: '/quest/:id'
+  Quest: '/quest/:id',
+  MyQuests: '/my-quests',
 } as const;
 
 export enum APIRoute {

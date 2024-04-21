@@ -22,6 +22,7 @@ const QuestPage = (): JSX.Element => {
     return <Loader/>;
   }
 
+  //TODO: Сделать какой-нибудь компонент с ошибкой
   if (!currentQuest) {
     return <div></div>;
   }
