@@ -1,4 +1,4 @@
-import { MouseEvent } from 'react';
+import { ChangeEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { FiltersSlice } from '../../store/slices/filters';
 import { TQuestFilterTypes } from '../../const';
@@ -12,13 +12,13 @@ const FilterItem = ({filter}: FilterItemProps): JSX.Element => {
   const currentDifficultyFilter = useAppSelector((state) => state.FILTERS.currentDifficulty);
   const currentThemeFilter = useAppSelector((state) => state.FILTERS.currentTheme);
   const {changeTheme, changeDifficulty} = FiltersSlice.actions;
-  const {id, name, isDefault, labelText, iconName, iconHeight, iconWidth} = filter;
+  const {id, name, labelText, iconName, iconHeight, iconWidth} = filter;
 
   const isChecked =
   (name === 'type' && (id === 'sciFi' ? 'sci-fi' : id) === currentThemeFilter) ||
   (name === 'level' && currentDifficultyFilter === id);
 
-  const handleFilterClick = (evt: MouseEvent<HTMLInputElement>) => {
+  const handleFilterChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const target = evt.currentTarget;
     const filterType = target.name;
     let filterId = target.id;
@@ -40,9 +40,8 @@ const FilterItem = ({filter}: FilterItemProps): JSX.Element => {
         type="radio"
         name={name}
         id={id}
-        defaultChecked={isDefault}
         checked={isChecked}
-        onClick={handleFilterClick}
+        onChange={handleFilterChange}
       />
       <label className="filter__label" htmlFor={id}>
         {iconName &&
