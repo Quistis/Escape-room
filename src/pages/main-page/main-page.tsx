@@ -1,12 +1,14 @@
 import { useAppSelector } from '../../hooks';
 import FilterSection from '../../components/filter-section/filter-section';
 import QuestCard from '../../components/quest-card/quest-card';
+import Loader from '../../components/loader/loader';
 import { QuestThemeFilters, QuestDifficultyFilters } from '../../const';
 
 const MainPage = ():JSX.Element => {
   const quests = useAppSelector((state) => state.QUESTS.cards.cardsData);
   const currentTheme = useAppSelector((state) => state.FILTERS.currentTheme);
   const currentDifficulty = useAppSelector((state) => state.FILTERS.currentDifficulty);
+  const isLoading = useAppSelector((state) => state.QUESTS.cards.loadingStatus);
 
   const isNotAllOrAny = (value: string) => value !== 'all' && value !== 'any';
 
@@ -17,6 +19,10 @@ const MainPage = ():JSX.Element => {
 
     return themeFilter && difficultyFilter;
   });
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <main className="page-content">

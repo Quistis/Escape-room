@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchQuestById } from '../../store/api-actions';
+import Loader from '../../components/loader/loader';
 import { replaceDifficulty, replaceTheme } from '../../utils/common';
 
 const QuestPage = (): JSX.Element => {
@@ -15,6 +16,11 @@ const QuestPage = (): JSX.Element => {
   }, [id, dispatch]);
 
   const currentQuest = useAppSelector((state) => state.QUESTS.currentQuest.data);
+  const isLoading = useAppSelector((state) => state.QUESTS.currentQuest.loadingStatus);
+
+  if (isLoading) {
+    return <Loader/>;
+  }
 
   if (!currentQuest) {
     return <div></div>;

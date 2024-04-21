@@ -14,7 +14,9 @@ const FilterItem = ({filter}: FilterItemProps): JSX.Element => {
   const {changeTheme, changeDifficulty} = FiltersSlice.actions;
   const {id, name, isDefault, labelText, iconName, iconHeight, iconWidth} = filter;
 
-  const isChecked = (name === 'type' && currentThemeFilter === id) || (name === 'level' && currentDifficultyFilter === id);
+  const isChecked =
+  (name === 'type' && (id === 'sciFi' ? 'sci-fi' : id) === currentThemeFilter) ||
+  (name === 'level' && currentDifficultyFilter === id);
 
   const handleFilterClick = (evt: MouseEvent<HTMLInputElement>) => {
     const target = evt.currentTarget;
