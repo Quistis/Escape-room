@@ -1,7 +1,32 @@
-import { useAppSelector } from '../../hooks';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useAppSelector, useAppDispatch } from '../../hooks';
+import { fetchQuestBookingInfoById, fetchQuestById } from '../../store/api-actions';
+import BookingDateSection from '../../components/booking-date-section/booking-date-section';
+import Loader from '../../components/loader/loader';
 
 const BookingPage = (): JSX.Element => {
+  const dispatch = useAppDispatch();
+  const {id} = useParams();
   const currentQuest = useAppSelector((state) => state.QUESTS.currentQuest.data);
+
+  useEffect(() => {
+    if (id && !currentQuest) {
+      dispatch(fetchQuestById(id));
+    }
+    if (id) {
+      dispatch(fetchQuestBookingInfoById(id));
+    }
+  }, [id, currentQuest, dispatch]);
+
+  const bookingData = useAppSelector((state) => state.BOOKING.bookingData);
+  const todaysTimeSlots = bookingData !== null && bookingData !== undefined ? bookingData[0].slots.today : null;
+  const tomorrowsTimeSlots = bookingData !== null && bookingData !== undefined ? bookingData[0].slots.tomorrow : null;
+  const isLoading = useAppSelector((state) => state.BOOKING.loadingStatus);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   //TODO: Сделать какой-нибудь компонент с ошибкой
   if (!currentQuest) {
@@ -54,120 +79,8 @@ const BookingPage = (): JSX.Element => {
         >
           <fieldset className="booking-form__section">
             <legend className="visually-hidden">Выбор даты и времени</legend>
-            <fieldset className="booking-form__date-section">
-              <legend className="booking-form__date-title">Сегодня</legend>
-              <div className="booking-form__date-inner-wrapper">
-                <label className="custom-radio booking-form__date">
-                  <input
-                    type="radio"
-                    id="today9h45m"
-                    name="date"
-                    required
-                    defaultValue="today9h45m"
-                  />
-                  <span className="custom-radio__label">9:45</span>
-                </label>
-                <label className="custom-radio booking-form__date">
-                  <input
-                    type="radio"
-                    id="today15h00m"
-                    name="date"
-                    defaultChecked
-                    required
-                    defaultValue="today15h00m"
-                  />
-                  <span className="custom-radio__label">15:00</span>
-                </label>
-                <label className="custom-radio booking-form__date">
-                  <input
-                    type="radio"
-                    id="today17h30m"
-                    name="date"
-                    required
-                    defaultValue="today17h30m"
-                  />
-                  <span className="custom-radio__label">17:30</span>
-                </label>
-                <label className="custom-radio booking-form__date">
-                  <input
-                    type="radio"
-                    id="today19h30m"
-                    name="date"
-                    required
-                    defaultValue="today19h30m"
-                    disabled
-                  />
-                  <span className="custom-radio__label">19:30</span>
-                </label>
-                <label className="custom-radio booking-form__date">
-                  <input
-                    type="radio"
-                    id="today21h30m"
-                    name="date"
-                    required
-                    defaultValue="today21h30m"
-                  />
-                  <span className="custom-radio__label">21:30</span>
-                </label>
-              </div>
-            </fieldset>
-            <fieldset className="booking-form__date-section">
-              <legend className="booking-form__date-title">Завтра</legend>
-              <div className="booking-form__date-inner-wrapper">
-                <label className="custom-radio booking-form__date">
-                  <input
-                    type="radio"
-                    id="tomorrow11h00m"
-                    name="date"
-                    required
-                    defaultValue="tomorrow11h00m"
-                  />
-                  <span className="custom-radio__label">11:00</span>
-                </label>
-                <label className="custom-radio booking-form__date">
-                  <input
-                    type="radio"
-                    id="tomorrow15h00m"
-                    name="date"
-                    required
-                    defaultValue="tomorrow15h00m"
-                    disabled
-                  />
-                  <span className="custom-radio__label">15:00</span>
-                </label>
-                <label className="custom-radio booking-form__date">
-                  <input
-                    type="radio"
-                    id="tomorrow17h30m"
-                    name="date"
-                    required
-                    defaultValue="tomorrow17h30m"
-                    disabled
-                  />
-                  <span className="custom-radio__label">17:30</span>
-                </label>
-                <label className="custom-radio booking-form__date">
-                  <input
-                    type="radio"
-                    id="tomorrow19h45m"
-                    name="date"
-                    required
-                    defaultValue="tomorrow19h45m"
-                  />
-                  <span className="custom-radio__label">19:45</span>
-                </label>
-                <label className="custom-radio booking-form__date">
-                  <input
-                    type="radio"
-                    id="tomorrow21h30m"
-                    name="date"
-                    required
-                    defaultValue="tomorrow21h30m"
-                  />
-                  <span className="custom-radio__label">21:30</span>
-                </label>
-              </div>
-            </fieldset>
+            {todaysTimeSlots && <BookingDateSection timeSlots={todaysTimeSlots}/>}
+            {tomorrowsTimeSlots && <BookingDateSection timeSlots={tomorrowsTimeSlots} />}
           </fieldset>
           <fieldset className="booking-form__section">
             <legend className="visually-hidden">Контактная информация</legend>

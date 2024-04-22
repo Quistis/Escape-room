@@ -4,6 +4,7 @@ import { AxiosInstance } from 'axios';
 import {saveToken, dropToken} from '../services/token';
 import { AppDispatch, State } from '../types/state';
 import { TQuest, TQuestsCard } from '../types/quest';
+import { TBookingData } from '../types/booking';
 import { TUser, TAuthInfo } from '../types/user';
 import { APIRoute } from '../const';
 
@@ -28,6 +29,18 @@ export const fetchQuestById = createAsyncThunk<TQuest, string, {
   'quests/fetchQuestById',
   async (id, {extra: api}) => {
     const {data} = await api.get<TQuest>(`${APIRoute.Quests}/${id}`);
+    return data;
+  }
+);
+
+export const fetchQuestBookingInfoById = createAsyncThunk<TBookingData[], string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'quests/fetchQuestBookingInfoById',
+  async (id, {extra: api}) => {
+    const {data} = await api.get<TBookingData[]>(`${APIRoute.Quests}/${id}/booking`);
     return data;
   }
 );
