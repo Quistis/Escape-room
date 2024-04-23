@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import { store } from './store';
 import App from './components/app/app';
 import { fetchQuests, checkAuthAction } from './store/api-actions';
+import 'react-toastify/dist/ReactToastify.css';
 
 store.dispatch(fetchQuests());
 store.dispatch(checkAuthAction());

@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { fetchQuestBookingInfoById, fetchQuestById } from '../../store/api-actions';
 import BookingDateSection from '../../components/booking-date-section/booking-date-section';
+import Map from '../../components/map/map';
 import Loader from '../../components/loader/loader';
 
 const BookingPage = (): JSX.Element => {
@@ -64,7 +65,9 @@ const BookingPage = (): JSX.Element => {
         <div className="page-content__item">
           <div className="booking-map">
             <div className="map">
-              <div className="map__container" />
+              <div className="map__container">
+                <Map />
+              </div>
             </div>
             <p className="booking-map__address">
               Вы&nbsp;выбрали: наб. реки Карповки&nbsp;5, лит&nbsp;П, м.
