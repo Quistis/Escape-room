@@ -107,8 +107,8 @@ const BookingPage = (): JSX.Element => {
           >
             <fieldset className="booking-form__section">
               <legend className="visually-hidden">Выбор даты и времени</legend>
-              {todaysTimeSlots && <BookingDateSection timeSlots={todaysTimeSlots} />}
-              {tomorrowsTimeSlots && <BookingDateSection timeSlots={tomorrowsTimeSlots} />}
+              {todaysTimeSlots && <BookingDateSection timeSlots={todaysTimeSlots} date={'today'}/>}
+              {tomorrowsTimeSlots && <BookingDateSection timeSlots={tomorrowsTimeSlots} date={'tomorrow'}/>}
             </fieldset>
             <fieldset className="booking-form__section">
               <legend className="visually-hidden">Контактная информация</legend>
@@ -120,8 +120,6 @@ const BookingPage = (): JSX.Element => {
                   type="text"
                   id="name"
                   placeholder="Имя"
-                  // required
-                  // pattern="[А-Яа-яЁёA-Za-z'- ]{1,}"
                   {...register('name', {
                     required: 'Это поле обязательно',
                     pattern: {

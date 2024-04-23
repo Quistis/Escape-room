@@ -3,9 +3,10 @@ import { TSlot } from '../../types/booking';
 
 type BookingDateItemProps = {
   timeSlot: TSlot;
+  date: string;
 };
 
-const BookingDateItem = ({timeSlot}: BookingDateItemProps): JSX.Element => {
+const BookingDateItem = ({timeSlot, date}: BookingDateItemProps): JSX.Element => {
   const { register } = useFormContext();
   const {time, isAvailable} = timeSlot;
   const [hours, minutes] = time.split(':');
@@ -14,9 +15,9 @@ const BookingDateItem = ({timeSlot}: BookingDateItemProps): JSX.Element => {
     <label className="custom-radio booking-form__date">
       <input
         type="radio"
-        id={`today${hours}h${minutes}m`}
+        id={`${date}${hours}h${minutes}m`}
         required
-        defaultValue={`today${hours}h${minutes}m`}
+        defaultValue={`${date}${hours}h${minutes}m`}
         disabled={!isAvailable}
         {...register('date', {required: true})}
       />
