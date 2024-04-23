@@ -1,14 +1,16 @@
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { fetchQuestBookingInfoById, fetchQuestById } from '../../store/api-actions';
 import BookingDateSection from '../../components/booking-date-section/booking-date-section';
 import Map from '../../components/map/map';
 import Loader from '../../components/loader/loader';
+import { TBookingData } from '../../types/booking';
 
 const BookingPage = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const {id} = useParams();
+  const [activeLocation, setActiveLocation] = useState<TBookingData | null>(null);
   const currentQuest = useAppSelector((state) => state.QUESTS.currentQuest.data);
 
   useEffect(() => {
@@ -21,9 +23,20 @@ const BookingPage = (): JSX.Element => {
   }, [id, currentQuest, dispatch]);
 
   const bookingData = useAppSelector((state) => state.BOOKING.bookingData);
-  const todaysTimeSlots = bookingData !== null && bookingData !== undefined ? bookingData[0].slots.today : null;
-  const tomorrowsTimeSlots = bookingData !== null && bookingData !== undefined ? bookingData[0].slots.tomorrow : null;
+
+  useEffect(() => {
+    if (bookingData) {
+      setActiveLocation(bookingData[0]);
+    }
+  }, [bookingData]);
+
+  const todaysTimeSlots = activeLocation !== null && activeLocation !== undefined ? activeLocation.slots.today : null;
+  const tomorrowsTimeSlots = activeLocation !== null && activeLocation !== undefined ? activeLocation.slots.tomorrow : null;
   const isLoading = useAppSelector((state) => state.BOOKING.loadingStatus);
+
+  const handleLocationSelect = (bookingItem: TBookingData) => {
+    setActiveLocation(bookingItem);
+  };
 
   if (isLoading) {
     return <Loader />;
@@ -66,12 +79,11 @@ const BookingPage = (): JSX.Element => {
           <div className="booking-map">
             <div className="map">
               <div className="map__container">
-                <Map />
+                <Map activeLocation={activeLocation} onMarkerClick={handleLocationSelect}/>
               </div>
             </div>
             <p className="booking-map__address">
-              Вы&nbsp;выбрали: наб. реки Карповки&nbsp;5, лит&nbsp;П, м.
-              Петроградская
+              Вы&nbsp;выбрали: {activeLocation && activeLocation.location.address}
             </p>
           </div>
         </div>
