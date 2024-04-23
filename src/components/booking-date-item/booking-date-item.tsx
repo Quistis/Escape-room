@@ -1,3 +1,4 @@
+import { useFormContext } from 'react-hook-form';
 import { TSlot } from '../../types/booking';
 
 type BookingDateItemProps = {
@@ -5,6 +6,7 @@ type BookingDateItemProps = {
 };
 
 const BookingDateItem = ({timeSlot}: BookingDateItemProps): JSX.Element => {
+  const { register } = useFormContext();
   const {time, isAvailable} = timeSlot;
   const [hours, minutes] = time.split(':');
 
@@ -13,10 +15,10 @@ const BookingDateItem = ({timeSlot}: BookingDateItemProps): JSX.Element => {
       <input
         type="radio"
         id={`today${hours}h${minutes}m`}
-        name="date"
         required
         defaultValue={`today${hours}h${minutes}m`}
         disabled={!isAvailable}
+        {...register('date', {required: true})}
       />
       <span className="custom-radio__label">{hours}:{minutes}</span>
     </label>
