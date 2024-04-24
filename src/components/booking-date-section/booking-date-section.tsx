@@ -8,7 +8,7 @@ type BookingDateSectionProps = {
 
 const BookingDateSection = ({timeSlots, date}: BookingDateSectionProps): JSX.Element => (
   <fieldset className="booking-form__date-section">
-    <legend className="booking-form__date-title">Сегодня</legend>
+    <legend className="booking-form__date-title">{date === 'today' ? 'Сегодня' : 'Завтра'}</legend>
     <div className="booking-form__date-inner-wrapper">
       {timeSlots.map((slot) => <BookingDateItem key={slot.time} timeSlot={slot} date={date} />)}
     </div>

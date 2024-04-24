@@ -1,3 +1,5 @@
+import { TQuestsCard } from './quest';
+
 export type TLocation = {
   address: string;
   coords: [number, number];
@@ -16,3 +18,25 @@ export type TBookingData = {
       tomorrow: TSlot[];
   };
 };
+
+export type TQuestReservation = {
+  date: 'today' | 'tomorrow';
+  time: string;
+  contactPerson: string;
+  phone: string;
+  withChildren: boolean;
+  peopleCount: number;
+  id: string;
+  location: TLocation;
+  quest: TQuestsCard;
+};
+
+export type TQuestBookingFormInfo = {
+  date: 'today' | 'tomorrow';
+  time: string;
+  contactPerson: string;
+  phone: string;
+  withChildren: boolean;
+  peopleCount: number;
+  placeId: string;
+}

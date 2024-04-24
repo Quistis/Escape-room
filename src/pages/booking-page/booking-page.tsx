@@ -1,20 +1,43 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useForm, FormProvider, SubmitHandler, FieldValues } from 'react-hook-form';
+import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { fetchQuestBookingInfoById, fetchQuestById } from '../../store/api-actions';
+import { fetchQuestBookingInfoById, fetchQuestById, postQuestBookingInfo } from '../../store/api-actions';
 import BookingDateSection from '../../components/booking-date-section/booking-date-section';
 import Map from '../../components/map/map';
 import Loader from '../../components/loader/loader';
-import { TBookingData } from '../../types/booking';
+import { TBookingData, TQuestBookingFormInfo } from '../../types/booking';
+
+type FormData = {
+  children: boolean;
+  date: 'today' | 'tomorrow';
+  name: string;
+  person: string;
+  tel: string;
+};
+
+const parseDateTime = (dateTimeStr: string) => {
+  const dateRegex = /(today|tomorrow)(\d{2})h(\d{2})m/;
+  const matchResult = dateTimeStr.match(dateRegex);
+
+  if (matchResult !== null) {
+    const [, date, hours, minutes] = matchResult;
+    return {
+      date,
+      time: `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`,
+    };
+  } else {
+    // Обработка случая, когда нет совпадений
+    throw new Error('Invalid date format');
+  }
+};
 
 const BookingPage = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const {id} = useParams();
   const [activeLocation, setActiveLocation] = useState<TBookingData | null>(null);
   const methods = useForm();
-  const { register, handleSubmit, formState: {errors} } = methods;
-  // const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+  const { register, handleSubmit, formState: {errors}, reset } = methods;
   const currentQuest = useAppSelector((state) => state.QUESTS.currentQuest.data);
 
   useEffect(() => {
@@ -42,8 +65,39 @@ const BookingPage = (): JSX.Element => {
     setActiveLocation(bookingItem);
   };
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormData> = (data) => {
+
+    const withChildren: boolean = data.children;
+
+    const peopleCount: number = parseInt(data.person, 10);
+
+    const placeId: string = activeLocation?.id ?? '';
+
+    const phone: string = data.tel.replace(/\D/g, '');
+
+    const { date, time } = parseDateTime(data.date);
+
+    const formattedData: TQuestBookingFormInfo = {
+      'date': date as 'today' | 'tomorrow',
+      'time': time,
+      'contactPerson': data.name,
+      'phone': phone,
+      'withChildren': withChildren,
+      'peopleCount': peopleCount,
+      'placeId': placeId,
+    };
+
+    if (currentQuest) {
+      dispatch(postQuestBookingInfo({ formData: formattedData, questId: currentQuest?.id }))
+        .then((response) => {
+          if (response.meta.requestStatus === 'fulfilled') {
+            reset();
+            if (id) {
+              dispatch(fetchQuestBookingInfoById(id));
+            }
+          }
+        });
+    }
   };
 
   if (isLoading) {
@@ -56,7 +110,7 @@ const BookingPage = (): JSX.Element => {
   }
 
   const {title, coverImg, coverImgWebp} = currentQuest;
-
+  //TODO: придумать что-то с типизацией onSubmit
   return (
     <main className="page-content decorated-page">
       <div className="decorated-page__decor" aria-hidden="true">
@@ -124,7 +178,7 @@ const BookingPage = (): JSX.Element => {
                     required: 'Это поле обязательно',
                     pattern: {
                       value: /[А-Яа-яЁёA-Za-z'\- ]{1,}/,
-                      message: 'Имя должно состоять из русских или латинских букв'
+                      message: 'Имя должно состоять из символов кириллицы или латиницы'
                     }
                   })}
                 />
