@@ -45,6 +45,18 @@ export const fetchQuestBookingInfoById = createAsyncThunk<TBookingData[], string
   }
 );
 
+export const fetchQuestsReservations = createAsyncThunk<TQuestReservation[], undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'quests/fetchQuestsReservations',
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get<TQuestReservation[]>(APIRoute.Reservation);
+    return data;
+  }
+);
+
 export const postQuestBookingInfo = createAsyncThunk<TQuestReservation, { formData: TQuestBookingFormInfo; questId: string }, {
   dispatch: AppDispatch;
   state: State;

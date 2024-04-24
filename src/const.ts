@@ -11,11 +11,13 @@ export enum APIRoute {
   Quests = '/quest',
   Login = '/login',
   Logout = '/logout',
+  Reservation = '/reservation',
 }
 
 export enum NameSpace {
   Quests = 'QUESTS',
   Booking = 'BOOKING',
+  Reservations = 'RESERVATIONS',
   Filters = 'FILTERS',
   Auth = 'AUTH',
 }
