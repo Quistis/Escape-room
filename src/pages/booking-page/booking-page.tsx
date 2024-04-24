@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import { useAppSelector, useAppDispatch } from '../../hooks';
@@ -7,6 +7,7 @@ import BookingDateSection from '../../components/booking-date-section/booking-da
 import Map from '../../components/map/map';
 import Loader from '../../components/loader/loader';
 import { TBookingData, TQuestBookingFormInfo } from '../../types/booking';
+import { AppRoutes } from '../../const';
 
 type FormData = {
   children: boolean;
@@ -34,6 +35,7 @@ const parseDateTime = (dateTimeStr: string) => {
 
 const BookingPage = (): JSX.Element => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const {id} = useParams();
   const [activeLocation, setActiveLocation] = useState<TBookingData | null>(null);
   const methods = useForm();
@@ -95,6 +97,7 @@ const BookingPage = (): JSX.Element => {
             if (id) {
               dispatch(fetchQuestBookingInfoById(id));
             }
+            navigate(AppRoutes.MyQuests);
           }
         });
     }

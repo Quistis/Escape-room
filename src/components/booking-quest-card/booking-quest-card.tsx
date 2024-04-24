@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks';
+import { deleteQuestBookingInfoById, fetchQuestsReservations } from '../../store/api-actions';
 import { TQuestReservation } from '../../types/booking';
 import { replaceDifficulty } from '../../utils/common';
 
@@ -7,8 +9,20 @@ type BookingQuestCardProps = {
 };
 
 const BookingQuestCard = ({reservation}: BookingQuestCardProps):JSX.Element => {
+  const dispatch = useAppDispatch();
   const {date, time, peopleCount, location, quest} = reservation;
   const {id, title, previewImg, previewImgWebp, level} = quest;
+
+  const onDeleteButtonClick = () => {
+    dispatch(deleteQuestBookingInfoById(reservation.id))
+      .then((response) => {
+        if (response.meta.requestStatus === 'fulfilled') {
+          if (id) {
+            dispatch(fetchQuestsReservations());
+          }
+        }
+      });
+  };
 
   return (
     <div className="quest-card">
@@ -53,6 +67,7 @@ const BookingQuestCard = ({reservation}: BookingQuestCardProps):JSX.Element => {
         <button
           className="btn btn--accent btn--secondary quest-card__btn"
           type="button"
+          onClick={onDeleteButtonClick}
         >
           Отменить
         </button>

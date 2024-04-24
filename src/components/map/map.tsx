@@ -1,5 +1,6 @@
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import L from 'leaflet';
 import { useAppSelector } from '../../hooks';
 import { TLocation, TBookingData } from '../../types/booking';
@@ -30,6 +31,18 @@ const defaultMarker = new L.Icon({
   shadowSize: [41, 41],
 });
 
+const RecenterAutomatically = ({ location }: { location: TLocation | undefined }) => {
+  const map = useMap();
+  const lat = location?.coords[0];
+  const lng = location?.coords[1];
+  useEffect(() => {
+    if (lat !== undefined && lng !== undefined) {
+      map.setView([lat, lng]);
+    }
+  }, [lat, lng, map]);
+  return null;
+};
+
 const Map = ({ location = { address: '', coords: [59.968322, 30.317359] }, activeLocation, onMarkerClick}: MapProps): JSX.Element => {
   const {coords} = location;
   const pageAdress = useLocation();
@@ -41,12 +54,12 @@ const Map = ({ location = { address: '', coords: [59.968322, 30.317359] }, activ
       onMarkerClick(bookingItem);
     }
   };
-  //TODO: Некорректно центрируется карта при первом рендере, что-то придумать надо,наверное, я уже хз :D
+
   return (
     <MapContainer
       center={activeLocation ? activeLocation.location.coords : coords}
-      zoom={11}
-      // scrollWheelZoom={false}
+      zoom={9}
+      scrollWheelZoom
       style={{ width: '100%', height: '100%' }}
     >
       <TileLayer
@@ -65,6 +78,8 @@ const Map = ({ location = { address: '', coords: [59.968322, 30.317359] }, activ
         :
         <Marker position={location.coords}>
         </Marker>}
+      {activeLocation && <RecenterAutomatically location={activeLocation.location}/>}
+
     </MapContainer>
   );
 };

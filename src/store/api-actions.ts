@@ -1,6 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-// import { toast } from 'react-toastify';
 import {saveToken, dropToken} from '../services/token';
 import { AppDispatch, State } from '../types/state';
 import { TQuest, TQuestsCard } from '../types/quest';
@@ -68,6 +67,18 @@ export const postQuestBookingInfo = createAsyncThunk<TQuestReservation, { formDa
     const {data} = await api.post<TQuestReservation>(`${APIRoute.Quests}/${questId}/booking`, formData);
     return data;
 
+  }
+);
+
+export const deleteQuestBookingInfoById = createAsyncThunk<TBookingData[], string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'quests/deleteQuestBookingInfoById',
+  async (id, {extra: api}) => {
+    const {data} = await api.delete<TBookingData[]>(`${APIRoute.Reservation}/${id}`);
+    return data;
   }
 );
 
