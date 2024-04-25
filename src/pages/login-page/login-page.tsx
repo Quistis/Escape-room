@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { useAppDispatch } from '../../hooks';
 import { loginAction } from '../../store/api-actions';
 import { AppRoutes } from '../../const';
@@ -27,6 +28,11 @@ const LoginPage = (): JSX.Element => {
 
   return (
     <main className="decorated-page login">
+      <Helmet>
+        <title>
+          Escape Room. Login
+        </title>
+      </Helmet>
       <div className="decorated-page__decor" aria-hidden="true">
         <picture>
           <source
@@ -80,6 +86,14 @@ const LoginPage = (): JSX.Element => {
                       pattern: {
                         value: /^.*(?=.*[a-zA-Z])(?=.*\d).*$/,
                         message: 'Пароль должен состоять только из латинских букв и цифр, и быть не менее 2 символов в длину'
+                      },
+                      minLength: {
+                        value: 3,
+                        message: 'Пароль должен состоять минимум из 3 символов'
+                      },
+                      maxLength: {
+                        value: 15,
+                        message: 'Пароль должен состоять максимум из 15 символов'
                       }
                     })}
                     placeholder="Пароль"

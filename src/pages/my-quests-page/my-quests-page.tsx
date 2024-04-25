@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchQuestsReservations } from '../../store/api-actions';
 import BookingQuestCard from '../../components/booking-quest-card/booking-quest-card';
@@ -19,6 +20,11 @@ const MyQuestsPage = (): JSX.Element => {
 
   return (
     <main className="page-content decorated-page">
+      <Helmet>
+        <title>
+          Escape Room. My Quests
+        </title>
+      </Helmet>
       <div className="decorated-page__decor" aria-hidden="true">
         <picture>
           <source

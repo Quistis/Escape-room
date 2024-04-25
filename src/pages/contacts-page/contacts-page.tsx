@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async';
 import Map from '../../components/map/map';
 import { TLocation } from '../../types/booking';
 
@@ -8,6 +9,11 @@ const DEFAULT_LOCATION: TLocation = {
 
 const ContactsPage = (): JSX.Element => (
   <main className="page-content decorated-page">
+    <Helmet>
+      <title>
+          Escape Room. Contacts
+      </title>
+    </Helmet>
     <div className="decorated-page__decor" aria-hidden="true">
       <picture>
         <source

@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useForm, FormProvider, SubmitHandler, FieldValues } from 'react-hook-form';
+import { Helmet } from 'react-helmet-async';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { fetchQuestBookingInfoById, fetchQuestById, postQuestBookingInfo } from '../../store/api-actions';
 import BookingDateSection from '../../components/booking-date-section/booking-date-section';
@@ -116,6 +117,11 @@ const BookingPage = (): JSX.Element => {
   //TODO: придумать что-то с типизацией onSubmit
   return (
     <main className="page-content decorated-page">
+      <Helmet>
+        <title>
+          Escape Room. Booking
+        </title>
+      </Helmet>
       <div className="decorated-page__decor" aria-hidden="true">
         <picture>
           <source

@@ -8,7 +8,7 @@ function NotFoundScreen(): JSX.Element {
     <section className="error-screen">
       <Helmet>
         <title>
-          6 Cities. Page not found
+          Escape Room. Page not found
         </title>
       </Helmet>
       <h2 className="error-screen--title">404 Страница не найдена</h2>

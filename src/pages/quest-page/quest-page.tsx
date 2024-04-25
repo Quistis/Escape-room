@@ -1,5 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchQuestById } from '../../store/api-actions';
 import Loader from '../../components/loader/loader';
@@ -34,6 +35,11 @@ const QuestPage = (): JSX.Element => {
 
   return (
     <main className="decorated-page quest-page">
+      <Helmet>
+        <title>
+          Escape Room. Quest
+        </title>
+      </Helmet>
       <div className="decorated-page__decor" aria-hidden="true">
         <picture>
           <source
