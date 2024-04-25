@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchQuestsReservations } from '../../store/api-actions';
 import BookingQuestCard from '../../components/booking-quest-card/booking-quest-card';
 import Loader from '../../components/loader/loader';
+import EmptyQuests from '../../components/empty-quests/empty-quests';
 
 const MyQuestsPage = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -47,6 +48,7 @@ const MyQuestsPage = (): JSX.Element => {
           </h1>
         </div>
         <div className="cards-grid">
+          {reservationsData?.length === 0 && <EmptyQuests />}
           {reservationsData?.map((quest) => <BookingQuestCard key={quest.id} reservation={quest}/>)}
         </div>
       </div>

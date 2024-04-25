@@ -3,6 +3,7 @@ import { useAppSelector } from '../../hooks';
 import FilterSection from '../../components/filter-section/filter-section';
 import QuestCard from '../../components/quest-card/quest-card';
 import Loader from '../../components/loader/loader';
+import EmptyQuests from '../../components/empty-quests/empty-quests';
 import { QuestThemeFilters, QuestDifficultyFilters } from '../../const';
 
 const MainPage = ():JSX.Element => {
@@ -10,6 +11,7 @@ const MainPage = ():JSX.Element => {
   const currentTheme = useAppSelector((state) => state.FILTERS.currentTheme);
   const currentDifficulty = useAppSelector((state) => state.FILTERS.currentDifficulty);
   const isLoading = useAppSelector((state) => state.QUESTS.cards.loadingStatus);
+  const isServerError = useAppSelector((state) => state.QUESTS.cards.errorStatus);
 
   const isNotAllOrAny = (value: string) => value !== 'all' && value !== 'any';
 
@@ -23,6 +25,10 @@ const MainPage = ():JSX.Element => {
 
   if (isLoading) {
     return <Loader />;
+  }
+
+  if (isServerError) {
+    return <EmptyQuests/>;
   }
 
   return (
@@ -49,7 +55,7 @@ const MainPage = ():JSX.Element => {
         </div>
         <h2 className="title visually-hidden">Выберите квест</h2>
         <div className="cards-grid">
-          {filteredQuests.length === 0}
+          {filteredQuests.length === 0 && <EmptyQuests />}
           {filteredQuests.length !== 0 && filteredQuests.map((quest) => <QuestCard key={quest.id} card={quest} />)}
         </div>
       </div>
