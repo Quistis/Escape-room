@@ -7,6 +7,7 @@ import BookingPage from '../../pages/booking-page/booking-page';
 import MyQuestsPage from '../../pages/my-quests-page/my-quests-page';
 import ContactsPage from '../../pages/contacts-page/contacts-page';
 import LoginPage from '../../pages/login-page/login-page';
+import NotFoundScreen from '../../pages/not-found-page/not-found-page';
 import { AppRoutes } from '../../const';
 
 const App = (): JSX.Element => (
@@ -37,6 +38,10 @@ const App = (): JSX.Element => (
           <Route
             path={AppRoutes.Login}
             element={<LoginPage />}
+          />
+          <Route
+            path='*'
+            element={<NotFoundScreen />}
           />
         </Route>
       </Routes>

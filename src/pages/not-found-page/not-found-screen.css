@@ -1,0 +1,23 @@
+.error-screen {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.error-screen--title {
+  font-size: 60px;
+  padding: 0;
+  margin-bottom: 15px;
+}
+
+.error-screen--image {
+  display: block;
+  margin-bottom: 25px;
+}
+
+.error-screen--back {
+  font-size: 25px;
+  text-decoration: underline;
+}

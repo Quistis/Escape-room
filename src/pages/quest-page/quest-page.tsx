@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchQuestById } from '../../store/api-actions';
 import Loader from '../../components/loader/loader';
+import NotFoundScreen from '../not-found-page/not-found-page';
 import { replaceDifficulty, replaceTheme } from '../../utils/common';
 import { AppRoutes, AuthorizationStatus } from '../../const';
 
@@ -26,7 +27,7 @@ const QuestPage = (): JSX.Element => {
 
   //TODO: Сделать какой-нибудь компонент с ошибкой
   if (!currentQuest) {
-    return <div></div>;
+    return <NotFoundScreen />;
   }
 
   const {title, level, type, peopleMinMax, description, coverImg, coverImgWebp} = currentQuest;
