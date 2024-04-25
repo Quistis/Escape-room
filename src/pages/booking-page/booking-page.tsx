@@ -209,7 +209,7 @@ const BookingPage = (): JSX.Element => {
                     }
                   })}
                 />
-                {errors.tel && <p>{errors.tel.message?.toString()}</p>}
+                {errors.tel && <p style={{color: 'orange'}}>{errors.tel.message?.toString()}</p>}
               </div>
               <div className="custom-input booking-form__input">
                 <label className="custom-input__label" htmlFor="person">
@@ -225,7 +225,7 @@ const BookingPage = (): JSX.Element => {
                     max: { value: currentQuest.peopleMinMax[1], message: `Максимальное значение должно быть ${currentQuest.peopleMinMax[1]}` }
                   })}
                 />
-                {errors.person && <p>{errors.person.message?.toString()}</p>}
+                {errors.person && <p style={{color: 'orange'}}>{errors.person.message?.toString()}</p>}
               </div>
               <label className="custom-checkbox booking-form__checkbox booking-form__checkbox--children">
                 <input
