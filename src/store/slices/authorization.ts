@@ -5,6 +5,7 @@ import { NameSpace, AuthorizationStatus } from '../../const';
 type AuthSliceType = {
   authStatus: AuthorizationStatus;
   userEmail: string;
+  authChecked: boolean;
   loadingStatus: boolean;
   errorStatus: boolean;
 };
@@ -12,6 +13,7 @@ type AuthSliceType = {
 const initialState: AuthSliceType = {
   authStatus: AuthorizationStatus.Unknown,
   userEmail: '',
+  authChecked: false,
   loadingStatus: false,
   errorStatus: false,
 };
@@ -22,9 +24,13 @@ export const AuthSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
+      .addCase(checkAuthAction.pending, (state) => {
+        state.authChecked = false;
+      })
       .addCase(checkAuthAction.fulfilled, (state, action) => {
         state.authStatus = AuthorizationStatus.Auth;
         state.userEmail = action.payload.email;
+        state.authChecked = true;
       })
       .addCase(checkAuthAction.rejected, (state) => {
         state.authStatus = AuthorizationStatus.NoAuth;
@@ -47,6 +53,7 @@ export const AuthSlice = createSlice({
 
       .addCase(logoutAction.fulfilled, (state) => {
         state.authStatus = AuthorizationStatus.NoAuth;
+        state.userEmail = '';
       });
   },
 });

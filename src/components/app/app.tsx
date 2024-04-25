@@ -8,6 +8,7 @@ import MyQuestsPage from '../../pages/my-quests-page/my-quests-page';
 import ContactsPage from '../../pages/contacts-page/contacts-page';
 import LoginPage from '../../pages/login-page/login-page';
 import NotFoundScreen from '../../pages/not-found-page/not-found-page';
+import { OnlyAuth, OnlyUnAuth } from '../protected-route/protected-route';
 import { AppRoutes } from '../../const';
 
 const App = (): JSX.Element => (
@@ -25,11 +26,11 @@ const App = (): JSX.Element => (
           />
           <Route
             path={AppRoutes.Booking}
-            element={<BookingPage />}
+            element={<OnlyAuth onlyUnAuth={false} component={<BookingPage/>} />}
           />
           <Route
             path={AppRoutes.MyQuests}
-            element={<MyQuestsPage />}
+            element={<OnlyAuth onlyUnAuth={false} component={<MyQuestsPage/>} />}
           />
           <Route
             path={AppRoutes.Contacts}
@@ -37,7 +38,7 @@ const App = (): JSX.Element => (
           />
           <Route
             path={AppRoutes.Login}
-            element={<LoginPage />}
+            element={<OnlyUnAuth component={<LoginPage/>} />}
           />
           <Route
             path='*'
