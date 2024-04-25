@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchQuestById } from '../../store/api-actions';
 import Loader from '../../components/loader/loader';
 import { replaceDifficulty, replaceTheme } from '../../utils/common';
+import { AppRoutes, AuthorizationStatus } from '../../const';
 
 const QuestPage = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -16,6 +17,7 @@ const QuestPage = (): JSX.Element => {
   }, [id, dispatch]);
 
   const currentQuest = useAppSelector((state) => state.QUESTS.currentQuest.data);
+  const authStatus = useAppSelector((state) => state.AUTH.authStatus);
   const isLoading = useAppSelector((state) => state.QUESTS.currentQuest.loadingStatus);
 
   if (isLoading) {
@@ -73,7 +75,7 @@ const QuestPage = (): JSX.Element => {
           </p>
           <Link
             className="btn btn--accent btn--cta quest-page__btn"
-            to={id ? `/quest/${id}/booking` : '/'}
+            to={authStatus === AuthorizationStatus.Auth && id ? `/quest/${id}/booking` : AppRoutes.Login}
           >
             Забронировать
           </Link>

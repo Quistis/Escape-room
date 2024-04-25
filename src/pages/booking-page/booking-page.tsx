@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
+import { useForm, FormProvider, SubmitHandler, FieldValues } from 'react-hook-form';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { fetchQuestBookingInfoById, fetchQuestById, postQuestBookingInfo } from '../../store/api-actions';
 import BookingDateSection from '../../components/booking-date-section/booking-date-section';
@@ -28,7 +28,6 @@ const parseDateTime = (dateTimeStr: string) => {
       time: `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`,
     };
   } else {
-    // Обработка случая, когда нет совпадений
     throw new Error('Invalid date format');
   }
 };
@@ -67,22 +66,23 @@ const BookingPage = (): JSX.Element => {
     setActiveLocation(bookingItem);
   };
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    const formData = data as FormData;
 
-    const withChildren: boolean = data.children;
+    const withChildren: boolean = formData.children;
 
-    const peopleCount: number = parseInt(data.person, 10);
+    const peopleCount: number = parseInt(formData.person, 10);
 
     const placeId: string = activeLocation?.id ?? '';
 
-    const phone: string = data.tel.replace(/\D/g, '');
+    const phone: string = formData.tel.replace(/\D/g, '');
 
-    const { date, time } = parseDateTime(data.date);
+    const { date, time } = parseDateTime(formData.date);
 
     const formattedData: TQuestBookingFormInfo = {
       'date': date as 'today' | 'tomorrow',
       'time': time,
-      'contactPerson': data.name,
+      'contactPerson': formData.name,
       'phone': phone,
       'withChildren': withChildren,
       'peopleCount': peopleCount,
