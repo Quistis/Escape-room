@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async';
 import { useAppSelector } from '../../hooks';
 import FilterSection from '../../components/filter-section/filter-section';
 import QuestCard from '../../components/quest-card/quest-card';
@@ -26,6 +27,11 @@ const MainPage = ():JSX.Element => {
 
   return (
     <main className="page-content">
+      <Helmet>
+        <title>
+          Escape Room. Quests
+        </title>
+      </Helmet>
       <div className="container">
         <div className="page-content__title-wrapper">
           <h1 className="subtitle page-content__subtitle">

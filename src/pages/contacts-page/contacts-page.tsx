@@ -1,5 +1,19 @@
+import { Helmet } from 'react-helmet-async';
+import Map from '../../components/map/map';
+import { TLocation } from '../../types/booking';
+
+const DEFAULT_LOCATION: TLocation = {
+  address: '',
+  coords: [59.968322, 30.317359],
+};
+
 const ContactsPage = (): JSX.Element => (
   <main className="page-content decorated-page">
+    <Helmet>
+      <title>
+          Escape Room. Contacts
+      </title>
+    </Helmet>
     <div className="decorated-page__decor" aria-hidden="true">
       <picture>
         <source
@@ -58,7 +72,9 @@ const ContactsPage = (): JSX.Element => (
         </dl>
         <div className="contacts__map">
           <div className="map">
-            <div className="map__container" />
+            <div className="map__container">
+              <Map location={DEFAULT_LOCATION} />
+            </div>
           </div>
         </div>
       </div>

@@ -1,19 +1,16 @@
-import { Outlet, Link, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { Outlet, Link, useLocation, NavLink } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
 import { AppRoutes, AuthorizationStatus } from '../../const';
 
 const Layout = (): JSX.Element => {
-  const [activeLink, setActiveLink] = useState('Квесты');
   const dispatch = useAppDispatch();
   const authStatus = useAppSelector((state) => state.AUTH.authStatus);
   const location = useLocation();
   const isLoginPage = location.pathname === AppRoutes.Login;
-
-  const handleLinkClick = (label: string) => {
-    setActiveLink(label);
-  };
+  const isQuestsPage = location.pathname === AppRoutes.Main;
+  const isContactsPage = location.pathname === AppRoutes.Contacts;
+  const isMyQuestsPage = location.pathname === AppRoutes.MyQuests;
 
   const handleLogoutButtonClick = () => {
     dispatch(logoutAction());
@@ -26,7 +23,6 @@ const Layout = (): JSX.Element => {
           <Link
             className="logo header__logo"
             to={AppRoutes.Main}
-            onClick={() => handleLinkClick('Квесты')}
           >
             <svg width={134} height={52} aria-hidden="true">
               <use xlinkHref="#logo" />
@@ -35,32 +31,29 @@ const Layout = (): JSX.Element => {
           <nav className="main-nav header__main-nav">
             <ul className="main-nav__list">
               <li className="main-nav__item">
-                <Link
-                  className={`link ${activeLink === 'Квесты' ? 'active' : ''}`}
+                <NavLink
+                  className={`link ${isQuestsPage ? 'active' : ''}`}
                   to={AppRoutes.Main}
-                  onClick={() => handleLinkClick('Квесты')}
                 >
                   Квесты
-                </Link>
+                </NavLink>
               </li>
               <li className="main-nav__item">
-                <Link
-                  className={`link ${activeLink === 'Контакты' ? 'active' : ''}`}
+                <NavLink
+                  className={`link ${isContactsPage ? 'active' : ''}`}
                   to={AppRoutes.Contacts}
-                  onClick={() => handleLinkClick('Контакты')}
                 >
                   Контакты
-                </Link>
+                </NavLink>
               </li>
               {authStatus === AuthorizationStatus.Auth &&
               <li className="main-nav__item">
-                <Link
-                  className={`link ${activeLink === 'Мои бронирования' ? 'active' : ''}`}
+                <NavLink
+                  className={`link ${isMyQuestsPage ? 'active' : ''}`}
                   to={AppRoutes.MyQuests}
-                  onClick={() => handleLinkClick('Мои бронирования')}
                 >
                   Мои бронирования
-                </Link>
+                </NavLink>
               </li>}
             </ul>
           </nav>
