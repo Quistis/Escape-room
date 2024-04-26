@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { State } from '../../types/state';
 import { NameSpace } from '../../const';
 
 type FiltersSliceType = {
@@ -33,5 +34,8 @@ export const FiltersSlice = createSlice({
     },
   },
 });
+
+export const selectCurrentTheme = (state: State): string => state[NameSpace.Filters].currentTheme;
+export const selectCurrentDifficulty = (state: State): string => state[NameSpace.Filters].currentDifficulty;
 
 export const filtersReducer = FiltersSlice.reducer;

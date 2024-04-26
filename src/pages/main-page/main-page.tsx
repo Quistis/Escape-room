@@ -4,14 +4,16 @@ import FilterSection from '../../components/filter-section/filter-section';
 import QuestCard from '../../components/quest-card/quest-card';
 import Loader from '../../components/loader/loader';
 import EmptyQuests from '../../components/empty-quests/empty-quests';
+import { selectQuestCards, selectQuestCardsLoadingStatus, selectQuestCardsErrorStatus } from '../../store/slices/quests';
+import { selectCurrentTheme, selectCurrentDifficulty } from '../../store/slices/filters';
 import { QuestThemeFilters, QuestDifficultyFilters } from '../../const';
 
 const MainPage = ():JSX.Element => {
-  const quests = useAppSelector((state) => state.QUESTS.cards.cardsData);
-  const currentTheme = useAppSelector((state) => state.FILTERS.currentTheme);
-  const currentDifficulty = useAppSelector((state) => state.FILTERS.currentDifficulty);
-  const isLoading = useAppSelector((state) => state.QUESTS.cards.loadingStatus);
-  const isServerError = useAppSelector((state) => state.QUESTS.cards.errorStatus);
+  const quests = useAppSelector(selectQuestCards);
+  const currentTheme = useAppSelector(selectCurrentTheme);
+  const currentDifficulty = useAppSelector(selectCurrentDifficulty);
+  const isLoading = useAppSelector(selectQuestCardsLoadingStatus);
+  const isServerError = useAppSelector(selectQuestCardsErrorStatus);
 
   const isNotAllOrAny = (value: string) => value !== 'all' && value !== 'any';
 
