@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import L from 'leaflet';
 import { useAppSelector } from '../../hooks';
+import { selectBookingData } from '../../store/slices/booking';
 import { TLocation, TBookingData } from '../../types/booking';
 import { AppRoutes } from '../../const';
 import defaultPin from '../../../markup/img/svg/pin-default.svg';
@@ -47,7 +48,7 @@ const Map = ({ location = { address: '', coords: [59.968322, 30.317359] }, activ
   const {coords} = location;
   const pageAdress = useLocation();
   const isContactsPage = pageAdress.pathname === AppRoutes.Contacts;
-  const bookingData = useAppSelector((state) => state.BOOKING.bookingData);
+  const bookingData = useAppSelector(selectBookingData);
 
   const handleMarkerClick = (bookingItem: TBookingData) => {
     if (onMarkerClick) {

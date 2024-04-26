@@ -1,6 +1,7 @@
 import { ChangeEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { FiltersSlice } from '../../store/slices/filters';
+import { selectCurrentDifficulty, selectCurrentTheme } from '../../store/slices/filters';
 import { TQuestFilterTypes } from '../../const';
 
 type FilterItemProps = {
@@ -9,8 +10,8 @@ type FilterItemProps = {
 
 const FilterItem = ({filter}: FilterItemProps): JSX.Element => {
   const dispatch = useAppDispatch();
-  const currentDifficultyFilter = useAppSelector((state) => state.FILTERS.currentDifficulty);
-  const currentThemeFilter = useAppSelector((state) => state.FILTERS.currentTheme);
+  const currentDifficultyFilter = useAppSelector(selectCurrentDifficulty);
+  const currentThemeFilter = useAppSelector(selectCurrentTheme);
   const {changeTheme, changeDifficulty} = FiltersSlice.actions;
   const {id, name, labelText, iconName, iconHeight, iconWidth} = filter;
 
