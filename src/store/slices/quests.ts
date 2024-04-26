@@ -67,4 +67,8 @@ export const selectQuestCards = (state: State): TQuestsCard[] => state[NameSpace
 export const selectQuestCardsLoadingStatus = (state: State): boolean => state[NameSpace.Quests].cards.loadingStatus;
 export const selectQuestCardsErrorStatus = (state: State): boolean => state[NameSpace.Quests].cards.errorStatus;
 
+export const selectCurrentQuest = (state: State): TQuest | null => state[NameSpace.Quests].currentQuest.data;
+export const selectCurrentQuestLoadingStatus = (state: State): boolean => state[NameSpace.Quests].currentQuest.loadingStatus;
+export const selectCurrentQuestErrorStatus = (state: State): boolean => state[NameSpace.Quests].currentQuest.errorStatus;
+
 export const questsReducer = QuestsSlice.reducer;

@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { checkAuthAction, loginAction, logoutAction } from '../api-actions';
+import { State } from '../../types/state';
 import { NameSpace, AuthorizationStatus } from '../../const';
 
 type AuthSliceType = {
@@ -57,5 +58,7 @@ export const AuthSlice = createSlice({
       });
   },
 });
+
+export const selectAuthStatus = (state: State): AuthorizationStatus => state[NameSpace.Auth].authStatus;
 
 export const authReducer = AuthSlice.reducer;
