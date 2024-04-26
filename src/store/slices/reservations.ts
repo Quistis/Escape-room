@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchQuestsReservations } from '../api-actions';
 import { TQuestReservation } from '../../types/booking';
+import { State } from '../../types/state';
 import { NameSpace } from '../../const';
 
 
@@ -36,5 +37,9 @@ export const ReservationsSlice = createSlice({
       });
   }
 });
+
+export const selectReservationsData = (state: State): TQuestReservation[] | null => state[NameSpace.Reservations].reservationsData;
+export const selectReservationsLoadingStatus = (state: State): boolean => state[NameSpace.Reservations].loadingStatus;
+export const selectReservationsErrorStatus = (state: State): boolean => state[NameSpace.Reservations].errorStatus;
 
 export const reservationsReducer = ReservationsSlice.reducer;
