@@ -2,13 +2,15 @@ import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchQuestsReservations } from '../../store/api-actions';
+import { selectReservationsData, selectReservationsLoadingStatus } from '../../store/slices/reservations';
 import BookingQuestCard from '../../components/booking-quest-card/booking-quest-card';
 import Loader from '../../components/loader/loader';
+import EmptyQuests from '../../components/empty-quests/empty-quests';
 
 const MyQuestsPage = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const reservationsData = useAppSelector((state) => state.RESERVATIONS.reservationsData);
-  const isLoading = useAppSelector((state) => state.RESERVATIONS.loadingStatus);
+  const reservationsData = useAppSelector(selectReservationsData);
+  const isLoading = useAppSelector(selectReservationsLoadingStatus);
 
   useEffect(() => {
     dispatch(fetchQuestsReservations());
@@ -47,6 +49,7 @@ const MyQuestsPage = (): JSX.Element => {
           </h1>
         </div>
         <div className="cards-grid">
+          {reservationsData?.length === 0 && <EmptyQuests />}
           {reservationsData?.map((quest) => <BookingQuestCard key={quest.id} reservation={quest}/>)}
         </div>
       </div>

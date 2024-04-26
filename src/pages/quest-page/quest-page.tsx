@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchQuestById } from '../../store/api-actions';
 import Loader from '../../components/loader/loader';
 import NotFoundScreen from '../not-found-page/not-found-page';
+import { selectCurrentQuest, selectCurrentQuestLoadingStatus } from '../../store/slices/quests';
+import { selectAuthStatus } from '../../store/slices/authorization';
 import { replaceDifficulty, replaceTheme } from '../../utils/common';
 import { AppRoutes, AuthorizationStatus } from '../../const';
 
@@ -18,15 +20,14 @@ const QuestPage = (): JSX.Element => {
     }
   }, [id, dispatch]);
 
-  const currentQuest = useAppSelector((state) => state.QUESTS.currentQuest.data);
-  const authStatus = useAppSelector((state) => state.AUTH.authStatus);
-  const isLoading = useAppSelector((state) => state.QUESTS.currentQuest.loadingStatus);
+  const currentQuest = useAppSelector(selectCurrentQuest);
+  const authStatus = useAppSelector(selectAuthStatus);
+  const isLoading = useAppSelector(selectCurrentQuestLoadingStatus);
 
   if (isLoading) {
     return <Loader/>;
   }
 
-  //TODO: Сделать какой-нибудь компонент с ошибкой
   if (!currentQuest) {
     return <NotFoundScreen />;
   }

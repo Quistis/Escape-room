@@ -1,11 +1,12 @@
 import { Outlet, Link, useLocation, NavLink } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
+import { selectAuthStatus } from '../../store/slices/authorization';
 import { AppRoutes, AuthorizationStatus } from '../../const';
 
 const Layout = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const authStatus = useAppSelector((state) => state.AUTH.authStatus);
+  const authStatus = useAppSelector(selectAuthStatus);
   const location = useLocation();
   const isLoginPage = location.pathname === AppRoutes.Login;
   const isQuestsPage = location.pathname === AppRoutes.Main;

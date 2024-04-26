@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchQuests, fetchQuestById } from '../api-actions';
 import { TQuest, TQuestsCard } from '../../types/quest';
+import { State } from '../../types/state';
 import { NameSpace } from '../../const';
 
 type QuestsSliceType = {
@@ -61,5 +62,13 @@ export const QuestsSlice = createSlice({
         state.currentQuest.errorStatus = true;
       });
   }});
+
+export const selectQuestCards = (state: State): TQuestsCard[] => state[NameSpace.Quests].cards.cardsData;
+export const selectQuestCardsLoadingStatus = (state: State): boolean => state[NameSpace.Quests].cards.loadingStatus;
+export const selectQuestCardsErrorStatus = (state: State): boolean => state[NameSpace.Quests].cards.errorStatus;
+
+export const selectCurrentQuest = (state: State): TQuest | null => state[NameSpace.Quests].currentQuest.data;
+export const selectCurrentQuestLoadingStatus = (state: State): boolean => state[NameSpace.Quests].currentQuest.loadingStatus;
+export const selectCurrentQuestErrorStatus = (state: State): boolean => state[NameSpace.Quests].currentQuest.errorStatus;
 
 export const questsReducer = QuestsSlice.reducer;
