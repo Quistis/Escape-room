@@ -7,6 +7,9 @@ import { fetchQuestBookingInfoById, fetchQuestById, postQuestBookingInfo } from 
 import BookingDateSection from '../../components/booking-date-section/booking-date-section';
 import Map from '../../components/map/map';
 import Loader from '../../components/loader/loader';
+import NotFoundScreen from '../not-found-page/not-found-page';
+import { selectCurrentQuest } from '../../store/slices/quests';
+import { selectBookingData, selectBookingDataLoadingStatus } from '../../store/slices/booking';
 import { TBookingData, TQuestBookingFormInfo } from '../../types/booking';
 import { AppRoutes } from '../../const';
 
@@ -40,7 +43,7 @@ const BookingPage = (): JSX.Element => {
   const [activeLocation, setActiveLocation] = useState<TBookingData | null>(null);
   const methods = useForm();
   const { register, handleSubmit, formState: {errors}, reset } = methods;
-  const currentQuest = useAppSelector((state) => state.QUESTS.currentQuest.data);
+  const currentQuest = useAppSelector(selectCurrentQuest);
 
   useEffect(() => {
     if (id && !currentQuest) {
@@ -51,7 +54,7 @@ const BookingPage = (): JSX.Element => {
     }
   }, [id, currentQuest, dispatch]);
 
-  const bookingData = useAppSelector((state) => state.BOOKING.bookingData);
+  const bookingData = useAppSelector(selectBookingData);
 
   useEffect(() => {
     if (bookingData) {
@@ -61,7 +64,7 @@ const BookingPage = (): JSX.Element => {
 
   const todaysTimeSlots = activeLocation !== null && activeLocation !== undefined ? activeLocation.slots.today : null;
   const tomorrowsTimeSlots = activeLocation !== null && activeLocation !== undefined ? activeLocation.slots.tomorrow : null;
-  const isLoading = useAppSelector((state) => state.BOOKING.loadingStatus);
+  const isLoading = useAppSelector(selectBookingDataLoadingStatus);
 
   const handleLocationSelect = (bookingItem: TBookingData) => {
     setActiveLocation(bookingItem);
@@ -108,13 +111,12 @@ const BookingPage = (): JSX.Element => {
     return <Loader />;
   }
 
-  //TODO: Сделать какой-нибудь компонент с ошибкой
   if (!currentQuest) {
-    return <div></div>;
+    return <NotFoundScreen />;
   }
 
   const {title, coverImg, coverImgWebp} = currentQuest;
-  //TODO: придумать что-то с типизацией onSubmit
+
   return (
     <main className="page-content decorated-page">
       <Helmet>
