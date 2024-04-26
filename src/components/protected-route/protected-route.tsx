@@ -2,6 +2,7 @@ import { ReactElement } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
 import { Location } from 'history';
+import { selectUserEmail } from '../../store/slices/authorization';
 
 type ProtectedRouteProps = {
   onlyUnAuth: boolean;
@@ -18,11 +19,11 @@ type LocationState = {
 
 const ProtectedRoute = ({ onlyUnAuth = false, component }: ProtectedRouteProps) => {
 
-  const userEmail = useAppSelector((store) => store.AUTH.userEmail);
+  const userEmail = useAppSelector(selectUserEmail);
   const location = useLocation();
 
   if (onlyUnAuth && userEmail) {
-    const { from }: { from: LocationState['from'] } = (location.state || { from: { pathname: '/' } }) as { from: LocationState['from'] };
+    const { from }: LocationState = (location.state || { from: { pathname: '/' } }) as LocationState;
     return <Navigate to={from} />;
   }
 

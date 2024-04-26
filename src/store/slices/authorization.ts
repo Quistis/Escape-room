@@ -60,5 +60,6 @@ export const AuthSlice = createSlice({
 });
 
 export const selectAuthStatus = (state: State): AuthorizationStatus => state[NameSpace.Auth].authStatus;
+export const selectUserEmail = (state: State): string => state[NameSpace.Auth].userEmail;
 
 export const authReducer = AuthSlice.reducer;
