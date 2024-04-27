@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useAppDispatch } from '../../hooks';
 import { loginAction } from '../../store/api-actions';
@@ -10,16 +10,25 @@ type FormData = {
   password: string;
 }
 
+type TLocationState = {
+  previousLocation: string;
+}
+
 const LoginPage = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const state: TLocationState = location.state as TLocationState;
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
     try {
       const response = await dispatch(loginAction(data));
       if (response.meta.requestStatus === 'fulfilled') {
-        navigate(AppRoutes.Main);
+        if (state) {
+          const { previousLocation } = state;
+          navigate(previousLocation ? previousLocation : AppRoutes.Main);
+        }
       }
     } catch (error) {
       // Handle error, for example, display error message

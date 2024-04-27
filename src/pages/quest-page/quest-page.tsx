@@ -84,6 +84,7 @@ const QuestPage = (): JSX.Element => {
           <Link
             className="btn btn--accent btn--cta quest-page__btn"
             to={authStatus === AuthorizationStatus.Auth && id ? `/quest/${id}/booking` : AppRoutes.Login}
+            state={{previousLocation: `/quest/${id ? id : ''}/booking`}}
           >
             Забронировать
           </Link>

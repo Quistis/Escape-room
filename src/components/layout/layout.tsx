@@ -62,7 +62,7 @@ const Layout = (): JSX.Element => {
             {!isLoginPage && authStatus === AuthorizationStatus.Auth &&
               <Link
                 className="btn btn--accent header__side-item"
-                to={AppRoutes.Main}
+                to={location.pathname}
                 onClick={handleLogoutButtonClick}
               >
                 Выйти
